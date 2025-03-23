@@ -1,0 +1,404 @@
+﻿@page "/student"
+
+@inject HttpClient _httpClient
+@using System.Net.Http.Headers
+@using Models.Shared
+@inject IMessageService _message
+
+
+<h3>StudentPage</h3>
+
+
+@* <Button Type="primary">Hello World!</Button> *@
+
+<div class="input-group mb-3">
+    <span class="input-group-text">SEARCH</span>
+    <input type="text" @bind-value="data" placeholder="Filder by First and Last Name" class="form-control">
+</div>
+
+<button class="btn btn-primary" @onclick="StudentList">REFRESH</button>
+
+<button class="btn btn-primary" @onclick="StudentSearch">SEARCH</button>
+
+
+
+
+@if (studentList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Course</th>
+                <th>Year Level</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var list in studentList)
+            {
+                <tr>
+                    <td>@list.ID</td>
+                    <td>@list.fullname</td>
+                    <td>@list.course </td>
+                    <td>@list.yearlevel</td>
+
+                    <td></td>
+                    <td></td>
+
+                        <td>
+                            <button class="btn btn-primary" @onclick="(async  () => await Edit(list.ID))">EDIT</button>
+                        </td>
+                        <td>
+                        <button class="btn btn-primary" @onclick="(async  () => await delete(list.ID))">DELETE</button>
+                        </td>
+                        
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+}
+
+
+<form>
+    <div class="row">
+        @* <div class="col">
+            <label for="email" class="form-label">I.D NUMBER</label>
+            <input type="text" @bind-value="stud.ID" class=" form-control" placeholder="" name="email">
+        </div> *@
+@* 
+        <div class="col">
+            <label for="email" class="form-label">DATE</label>
+            <input type="date" @bind-value="stud.date" class=" form-control" placeholder="" name="pswd">
+        </div> *@
+
+
+        @* <div class="col">
+            <label for="email" class="form-label">STUDENT I.D</label>
+        <input type="text" class="form-control" placeholder="" name="pswd">
+        </div> *@
+    </div>
+</form>
+
+<form>
+    <div class="row">
+        <div class="col">
+            <label for="email" class="form-label">CATEGORY</label>
+            <input type="text" @bind-value="stud.category" class=" form-control" placeholder="" name="email">
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">COURSE</label>
+            <select class="form-select" @bind="stud.course">
+                <option>BSIT</option>
+                <option>BSHM</option>
+                <option>BECE</option>
+                <option>BTVTE</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">LRN</label>
+            <input type="text" @bind-value="stud.lrn" class=" form-control">
+        </div>
+    </div>
+</form>
+
+<form>
+    <div class="row">
+        <div class="col">
+            <label for="email" class="form-label"> YEAR LEVEL </label>
+            <select class="form-select" @bind="stud.yearlevel">
+                <option>1st</option>
+                <option>2nd</option>
+                <option>3rd</option>
+                <option>4th</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">YEAR</label>
+            <input type="text" @bind-value="stud.Year" class=" form-control">
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">ENROLLMENT STATUS</label>
+            <input type="text" @bind-value="stud.EnrolmentStatus" class=" form-control">
+        </div>
+    </div>
+</form>
+
+<form>
+    <div class="row">
+        <div class="col">
+            <label for="email" class="form-label"> SEMESTER </label>
+            <select class="form-select" @bind="stud.Semester">
+                <option>1st</option>
+                <option>2nd</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">LAST NAME</label>
+            <input type="text" @bind-value="stud.lname" class=" form-control">
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">FIRST NAME</label>
+            <input type="text" @bind-value="stud.fname" class="form-control">
+        </div>
+    </div>
+</form>
+
+<form>
+    <div class="row">
+        <div class="col">
+            <label for="email" class="form-label">MIDDLE NAME</label>
+            <input type="text" @bind-value="stud.middlename" class="form-control">
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">EXT</label>
+            <input type="text" @bind-value="stud.ext" class="form-control">
+        </div>
+        <div class="col">
+            <label for="email"  class="form-label">GENDER</label>
+            <select class="form-select" @bind="stud.gender">
+                <option>FEMALE</option>
+                <option>MALE</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+<form>
+    <div class="row">
+        <div class="col">
+            <label for="email" class="form-label">BIRTHDAY</label>
+            <input type="date"  class="form-control" >
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">EMAIL</label>
+            <input type="text" @bind-value="stud.email" class="form-control">
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">ADDRESS</label>
+            <input type="text" @bind-value="stud.address" class="form-control">
+        </div>
+    </div>
+</form>
+
+<form>
+    <div class="row">
+        <div class="col">
+            <label for="email" class="form-label">CONTACT NUMBER</label>
+            <input type="text" @bind-value="stud.contactNo" class="form-control" >
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">GUARDIAN NAME</label>
+            <input type="text" @bind-value="stud.Guardian" class="form-control">
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">GUARDIAN ADDRESS</label>
+            <input type="text" @bind-value="stud.Gaddress" class="form-control">
+        </div>
+    </div>
+</form>
+
+<form>
+    <div class="row">
+        <div class="col">
+            <label for="email"  class="form-label">GUARDIAN CONTACT NUMBER</label>
+            <input type="text" @bind-value="stud.GConcactNo" class="form-control" >
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">PRE ENROLLED</label>
+            <input type="text" @bind-value="stud.preenrolled" class="form-control">
+        </div>
+        <div class="col">
+            <label for="email" class="form-label">NOTE</label>
+            <input type="text" @bind-value="stud.note" class="form-control">
+        </div>
+    </div>
+</form>
+
+
+<br />
+
+<button class="btn btn-primary" @onclick="SAVE">SAVE</button>
+
+
+
+
+@code {
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    string operation = "SAVE";
+
+    string data = "";
+
+    Students[] studentList;
+
+    Students stud = new Students();
+
+
+    async Task SAVE()
+    {
+
+        if (operation == "SAVE")
+        {
+            stud.ID = Guid.NewGuid().ToString();
+            stud.StudentID =
+            $"{stud.lname.Substring(0, 1)}{stud.fname.Substring(0, 1)}-{DateTime.Now.ToString("mmddyyhhmmss")}";
+            stud.EnrolmentStatus = "PREENROLLED";
+            stud.preenrolled = true;
+            stud.note = "----";
+        }
+        var i = await _httpClient.PostAsJsonAsync("api/Students/StudentSave", stud);
+
+        if (i.IsSuccessStatusCode == true)
+        {
+            await _message.Success("Successfully Saved!");
+            operation = "SAVE";
+        } 
+    }
+
+
+
+    public async Task StudentList()
+    {
+
+        try
+        {
+
+            HttpResponseMessage json = await _httpClient.GetAsync($"api/Students/StudentList");
+            if (json.IsSuccessStatusCode)
+            {
+
+
+
+                string content = await json.Content.ReadAsStringAsync();
+                studentList = JsonConvert.DeserializeObject<Students[]>(content);
+
+            }
+
+
+        }
+
+        catch (Exception ex)
+        {
+        //
+        }
+
+
+        await InvokeAsync(StateHasChanged);
+
+
+    }
+
+
+
+    public async Task StudentSearch()
+    {
+
+
+
+
+        try
+        {
+
+            HttpResponseMessage json = await _httpClient.GetAsync($"api/Students/StudentSearch/data?data={data}");
+            if (json.IsSuccessStatusCode)
+            {
+                string content = await json.Content.ReadAsStringAsync();
+                studentList = JsonConvert.DeserializeObject<Students[]>(content);
+
+            }
+
+
+        }
+
+        catch (Exception ex)
+        {
+        //
+        }
+
+
+        await InvokeAsync(StateHasChanged);
+
+
+    }
+
+
+    async Task Edit(string ID)
+    {
+        var dd = from s in studentList
+                 where s.ID == ID
+                 select s;
+        var editdate = dd.ToArray();
+
+
+
+        operation = "UPDATE";
+
+        stud.ID = editdate[0].ID;
+        stud.date = editdate[0].date;
+        stud.StudentID = editdate[0].StudentID;
+        stud.category = editdate[0].category;
+        stud.course = editdate[0].course;
+
+        stud.lrn = editdate[0].lrn;
+        stud.yearlevel = editdate[0].yearlevel;
+        stud.Year = editdate[0].Year;
+        stud.EnrolmentStatus = editdate[0].EnrolmentStatus;
+        stud.Semester = editdate[0].Semester;
+
+
+        stud.lname = editdate[0].lname;
+        stud.fname = editdate[0].fname;
+        stud.middlename = editdate[0].middlename;
+        stud.ext = editdate[0].ext;
+        stud.gender = editdate[0].gender;
+
+        stud.bdate = editdate[0].bdate;
+        stud.email = editdate[0].email;
+        stud.address = editdate[0].address;
+        stud.contactNo = editdate[0].contactNo;
+        stud.Guardian = editdate[0].Guardian;
+
+        stud.Gaddress = editdate[0].Gaddress;
+        stud.GConcactNo = editdate[0].GConcactNo;
+        stud.note = editdate[0].note;
+
+    }
+
+
+
+    async Task delete(string id)
+    {
+        try
+        {
+        
+
+
+            var i = await _httpClient.GetAsync($"api/Students/StudentDelete?id={id}");
+
+            if (i.IsSuccessStatusCode == true)
+            {
+                await _message.Success("Successfully Delete!");
+                operation = "SAVE";
+            }
+        }
+         catch (Exception ex)
+        {
+            
+        }
+
+    }
+
+
+   
+    
+}

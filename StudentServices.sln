@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentServices", "StudentServices\StudentServices.csproj", "{A96B637F-61AD-458B-99D2-2E5A0D5CA531}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Models.Shared", "Models.Shared\Models.Shared.shproj", "{80D238F0-7659-4CF6-A4ED-54FEAD308EF8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PreEnrollmentClientSide", "PreEnrollmentClientSide\PreEnrollmentClientSide.csproj", "{FBBDD601-4DFB-42D3-9E91-4C87404C6E18}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A96B637F-61AD-458B-99D2-2E5A0D5CA531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A96B637F-61AD-458B-99D2-2E5A0D5CA531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A96B637F-61AD-458B-99D2-2E5A0D5CA531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A96B637F-61AD-458B-99D2-2E5A0D5CA531}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBBDD601-4DFB-42D3-9E91-4C87404C6E18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBBDD601-4DFB-42D3-9E91-4C87404C6E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBBDD601-4DFB-42D3-9E91-4C87404C6E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBBDD601-4DFB-42D3-9E91-4C87404C6E18}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {675920AD-7F01-4EB8-804F-051B60C77A77}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Models.Shared\Models.Shared.projitems*{80d238f0-7659-4cf6-a4ed-54fead308ef8}*SharedItemsImports = 13
+		Models.Shared\Models.Shared.projitems*{a96b637f-61ad-458b-99d2-2e5a0d5ca531}*SharedItemsImports = 5
+		Models.Shared\Models.Shared.projitems*{fbbdd601-4dfb-42d3-9e91-4c87404c6e18}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal
